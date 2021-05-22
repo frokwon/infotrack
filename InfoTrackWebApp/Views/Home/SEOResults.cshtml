@@ -1,0 +1,11 @@
+﻿@model InfoTrackWebApp.Models.SEOResults;
+@{
+    ViewData["Title"] = "Results";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Ranking(s)</p>
+@foreach (var ranking in Model.Rankings)
+{
+    @ranking <br />
+}

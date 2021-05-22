@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using InfoTrack.Library.Helpers;
+using InfoTrackWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+
+namespace InfoTrackWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ISEOHelper _sEOHelper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ISEOHelper sEOHelper)
         {
-            _logger = logger;
+            _sEOHelper = sEOHelper;
         }
 
         public IActionResult Index()
@@ -23,15 +25,21 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult SEOResults(SEOForm sEOForm)
         {
-            return View();
-        }
+        
+            if (ModelState.IsValid)
+            {
+                var results = new SEOResults
+                {
+                    Rankings = _sEOHelper.GetRankings(sEOForm.Url, sEOForm.Keywords)
+                };
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                return View(results);
+            }
+
+            return View("Index");
         }
     }
 }
