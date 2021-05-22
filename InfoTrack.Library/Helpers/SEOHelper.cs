@@ -17,7 +17,7 @@ namespace InfoTrack.Library.Helpers
             client.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
             var googleSearchResults = client.DownloadString($"https://www.google.co.uk/search?num=100&q={HttpUtility.UrlEncode(keywords)}");
 
-            var searchExpression = @"<cite.*>(\b(?:https?://|www\.)\S+\b)<span.*</span></cite>";
+            var searchExpression = @"<h3.*?>.*?</h3>.*?<cite.*?>(\b(?:https?://|www\.)\S+\b).*?</cite>";
 
             var regEx = new Regex(searchExpression);
 
