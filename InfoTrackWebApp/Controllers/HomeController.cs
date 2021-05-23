@@ -13,11 +13,11 @@ namespace InfoTrackWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISEOHelper _sEOHelper;
+        private readonly ISEOHelper SEOHelper;
 
         public HomeController(ISEOHelper sEOHelper)
         {
-            _sEOHelper = sEOHelper;
+            SEOHelper = sEOHelper;
         }
 
         public IActionResult Index()
@@ -28,12 +28,12 @@ namespace InfoTrackWebApp.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult SEOResults(SEOForm sEOForm)
         {
-        
+       
             if (ModelState.IsValid)
             {
                 var results = new SEOResults
                 {
-                    Rankings = _sEOHelper.GetRankings(sEOForm.Url, sEOForm.Keywords)
+                    Rankings = SEOHelper.GetRankings(sEOForm.Url, sEOForm.Keywords)
                 };
 
                 return View(results);
